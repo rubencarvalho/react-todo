@@ -1,15 +1,12 @@
 import React, { Component } from 'react'
 import './App.css'
 
-import Title from './Components/Title'
-import Input from './Components/Input'
-import Button from './Components/Button'
-import Todos from './Components/Todos'
-import Form from './Components/Form'
-
+import Title from './components/Title'
+import Todos from './components/Todos'
+import Form from './components/Form'
+import GlobalStyle from './components/GlobalStyle'
 class App extends Component {
   state = {
-    newTodo: '',
     todos: [
       { text: 'Walk the Dog', checked: false },
       { text: 'Walk the Cat', checked: false },
@@ -17,16 +14,10 @@ class App extends Component {
     ],
   }
 
-  addTodo = e => {
-    e.preventDefault()
-
-    if (this.state.newTodo) {
+  addTodo = todo => {
+    if (todo) {
       this.setState({
-        todos: [
-          ...this.state.todos,
-          { text: this.state.newTodo, checked: false },
-        ],
-        newTodo: '',
+        todos: [...this.state.todos, { text: todo, checked: false }],
       })
     }
   }
@@ -38,13 +29,6 @@ class App extends Component {
         ...this.state.todos.slice(index + 1),
       ],
     })
-  }
-
-  onInputChange = e => {
-    this.setState({
-      newTodo: e.target.value,
-    })
-    console.log(this.state.newTodo)
   }
 
   onChangeCheck = index => {
@@ -61,14 +45,10 @@ class App extends Component {
   render() {
     return (
       <div>
+        <GlobalStyle />
         <Title type="h1" text={'Fancy React Todo'} />
         <Title type="h2" text={'I am a Subtitle'} />
-        <Form
-          onSubmit={this.addTodo}
-          newTodo={this.state.newTodo}
-          onInputChange={this.onInputChange}
-        />
-
+        <Form onSubmit={this.addTodo} onInputChange={this.onInputChange} />
         <Todos
           todos={this.state.todos}
           onDeleteClick={this.deleteTodo}
