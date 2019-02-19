@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import './App.css'
-
 import Title from './components/Title'
 import Todos from './components/Todos'
 import Form from './components/Form'
 import GlobalStyle from './components/GlobalStyle'
+import { saveToStorage, loadFromStorage } from './services'
+
 class App extends Component {
-  state = {
+  state = loadFromStorage('react-todo-app') || {
     todos: [
       { text: 'Walk the Dog', checked: false },
       { text: 'Walk the Cat', checked: false },
@@ -43,6 +44,7 @@ class App extends Component {
   }
 
   render() {
+    saveToStorage('react-todo-app', this.state)
     return (
       <div>
         <GlobalStyle />
